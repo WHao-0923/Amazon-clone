@@ -2,6 +2,8 @@
 
 ### "npm start" to deploy
 
-Used resources: \\
-images: pngimg.com\\
-icons: Material-ui.com
+Info:  
+    refer to the parent README.md
+
+Tech:  
+    react dom

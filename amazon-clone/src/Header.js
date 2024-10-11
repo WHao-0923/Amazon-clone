@@ -3,26 +3,32 @@ import './Header.css'
 import logo from './assets/amazon_PNG25.png'
 import SearchIcon from '@mui/icons-material/Search';
 import {ShoppingCart} from "@mui/icons-material";
+import {Link} from "react-router-dom";
+import {useStateValue} from "./StateProvider";
 
 function Header(props) {
+    const [{cart}, dispatch] = useStateValue();
     return (
         <div className='header'>
-            <img className='header__logo' src={logo} alt=''/>
-
+            <Link to='/'>
+                <img className='header__logo' src={logo} alt=''/>
+            </Link>
             <div className='header__search' >
                 <input className='header__searchInput' type='text' placeholder='Search by Amazon'/>
                 <SearchIcon className='header__searchIcon' s/>
             </div>
 
             <div className='header__nav'>
-                <div className='header__option'>
-                    <span className='header__optionLineOne'>
-                        Hello Guest
-                    </span>
-                    <span className='header__optionLineTwo'>
-                        Sign In
-                    </span>
-                </div>
+                <Link to='/login'>
+                    <div className='header__option'>
+                        <span className='header__optionLineOne'>
+                            Hello Guest
+                        </span>
+                        <span className='header__optionLineTwo'>
+                            Sign In
+                        </span>
+                    </div>
+                </Link>
                 <div className='header__option'>
                      <span className='header__optionLineOne'>
                         Returns
@@ -41,10 +47,12 @@ function Header(props) {
                 </div>
             </div>
             <div>
-                <div className="header__optionBasket">
-                    <ShoppingCart/>
-                    <span className='header__optionlineTwo header__basketCount'>0</span>
-                </div>
+                <Link to='/checkout'>
+                    <div className="header__optionCart">
+                        <ShoppingCart/>
+                        <span className='header__optionlineTwo header__cartCount'>{cart?.length}</span>
+                    </div>
+                </Link>
             </div>
         </div>
     );
