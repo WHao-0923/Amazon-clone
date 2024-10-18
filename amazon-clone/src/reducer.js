@@ -1,5 +1,6 @@
 export const initialState = {
     cart: [],
+    user: null,
 }
 
 // Selector // this function should be here
@@ -23,6 +24,10 @@ const reducer = (state = initialState, action) => {
                 console.warn(`Can't remove product (id: ${action.id}) as its not in the cart!`)
             }
             return {...state, cart: newCart};
+        case 'SET_USER':
+            return {
+                ...state, user: action.user
+            }
         default:
             return state;
     }

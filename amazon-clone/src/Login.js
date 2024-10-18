@@ -1,8 +1,35 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './Login.css';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import {auth} from "./firebase";
+
 
 function Login(props) {
+    const navigate = useNavigate();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const signIn = e => {
+        e.preventDefault();
+
+        // Firebase login
+        auth.signInWithEmailAndPassword(email, password).then(auth => {
+            navigate('/')
+        }).catch(error => {console.log(error.message)});
+
+    }
+    const register = e => {
+        e.preventDefault();
+
+        // Firebase register
+        auth.createUserWithEmailAndPassword(email, password).then((auth) => {
+            (console.log(auth));
+            if (auth) {
+                navigate('/')
+            }
+            })
+            .catch((error) => {alert(error.message)})
+    }
+
     return (
         <div className='login'>
             <Link to="/">
@@ -11,15 +38,16 @@ function Login(props) {
 
             <div className="login__container">
                 <h1>Sign in</h1>
-
                 <form>
                     <h5>E-mail or mobile phone number</h5>
-                    <input type='text' placeholder='Email'/>
+                    <input type='text' placeholder='email@gmail.com' value={email} onChange=
+                        {(e) => setEmail(e.target.value)} />
 
                     <h5>Password</h5>
-                    <input type='password' placeholder=''/>
+                    <input type='password' placeholder='' value={password} onChange=
+                        {(e) => setPassword(e.target.value)} />
 
-                    <button className='login__signInButton'>Sign in</button>
+                    <button type='submit' onClick={signIn} className='login__signInButton'>Sign in</button>
                 </form>
                 <p>
                     By signing-in you agree to the ***
@@ -28,7 +56,7 @@ function Login(props) {
                     Notice and our Interest-Based Ads Notice.
                 </p>
 
-                <button className='login__registerButton'>Create your Amazon Account</button>
+                <button onClick={register} className='login__registerButton'>Create your Amazon Account</button>
             </div>
         </div>
     );
